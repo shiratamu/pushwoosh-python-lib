@@ -56,6 +56,8 @@ class CommonNotificationMixin(BaseNotificationMixin):
         minimize_link (int): Optional. Minimizer type. See constant.MINIMIZER_* for more information. Default "goo.gl"
 
         data (dict): Optional. Custom data will be passed to device with notification.
+
+        send_rate (int): Optional. Throttling. Valid values are from 100 to 1000 pushes/second.
     """
 
     def __init__(self):
@@ -67,13 +69,14 @@ class CommonNotificationMixin(BaseNotificationMixin):
         self.minimize_link = constants.LINK_MINIMIZER_GOOGLE
         self.data = None
         self.users = None
+        self.send_rate = None
 
     def render(self):
         result = {
             'send_date': self.send_date,
             'content': self.content,
         }
-        render_attrs(self, result, ('ignore_user_timezone', 'page_id', 'link', 'data', 'users'))
+        render_attrs(self, result, ('ignore_user_timezone', 'page_id', 'link', 'data', 'users', 'send_rate'))
 
         if 'link' in result:
             result['minimize_link'] = self.minimize_link
