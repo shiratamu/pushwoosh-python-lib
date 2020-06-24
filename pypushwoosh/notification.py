@@ -58,6 +58,8 @@ class CommonNotificationMixin(BaseNotificationMixin):
         data (dict): Optional. Custom data will be passed to device with notification.
 
         send_rate (int): Optional. Throttling. Valid values are from 100 to 1000 pushes/second.
+
+        timezone (str): America/New_York, // optional. If ignored UTC-0 is default for "send_date". See http://php.net/manual/timezones.php for supported timezones.
     """
 
     def __init__(self):
@@ -70,13 +72,14 @@ class CommonNotificationMixin(BaseNotificationMixin):
         self.data = None
         self.users = None
         self.send_rate = None
+        self.timezone = None
 
     def render(self):
         result = {
             'send_date': self.send_date,
             'content': self.content,
         }
-        render_attrs(self, result, ('ignore_user_timezone', 'page_id', 'link', 'data', 'users', 'send_rate'))
+        render_attrs(self, result, ('ignore_user_timezone', 'page_id', 'link', 'data', 'users', 'send_rate', 'timezone'))
 
         if 'link' in result:
             result['minimize_link'] = self.minimize_link
